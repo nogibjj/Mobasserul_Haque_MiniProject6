@@ -1,32 +1,54 @@
-import requests
 import os
+import requests
+import pandas as pd
 
-def extract(url="https://raw.githubusercontent.com/fivethirtyeight/data/master/airline-safety/airline-safety.csv", 
-            file_path="data/airline-safety.csv"):
-    print("Starting extraction process...")
 
+def extract(
+    url="https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/grad-students.csv",
+    url_2="https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/recent-grads.csv",
+    file_path="data/grad-students.csv",
+    file_path_2="data/recent-grads.csv"):
+    
     if not os.path.exists("data"):
-        print("Creating directory 'data'")
         os.makedirs("data")
-    else:
-        print("Directory 'data' already exists")
     
-    print(f"Sending request to {url}...")
-    r = requests.get(url)
+    try:
+        r = requests.get(url, stream=True)
+        if r.status_code == 200:
+            with open(file_path, "wb") as f:
+                f.write(r.content)
+        else:
+            print(f"Failed to download file from {url}")
+    except Exception as e:
+        print(f"Error downloading {url}: {e}")
     
-    # status code of the response
-    print(f"HTTP Status Code: {r.status_code}")
+    try:
+        r = requests.get(url_2, stream=True)
+        if r.status_code == 200:
+            with open(file_path_2, "wb") as f:
+                f.write(r.content)
+        else:
+            print(f"Failed to download file from {url_2}")
+    except Exception as e:
+        print(f"Error downloading {url_2}: {e}")
     
-    # Check if the request was successful
-    if r.status_code == 200:
-        print(f"Request successful! Saving content to {file_path}...")
+    # Read the files and get the first 100 rows
+    try:
+        df = pd.read_csv(file_path)
+        df_2 = pd.read_csv(file_path_2)
         
-        with open(file_path, 'wb') as f:
-            f.write(r.content)
-        print(f"File saved successfully at {file_path}")
-    else:
-        print(f"Failed to download file. Status code: {r.status_code}")
-    
-    return file_path
+        df_subset = df.head(100)
+        df_subset_2 = df_2.head(100)
+        
+        # Overwrite the files with the subset of data
+        df_subset.to_csv(file_path, index=False)
+        df_subset_2.to_csv(file_path_2, index=False)
+        
+        return file_path, file_path_2
 
-extract()
+    except Exception as e:
+        print(f"Error processing the CSV files: {e}")
+        return None, None
+
+
+file_path, file_path_2 = extract()
