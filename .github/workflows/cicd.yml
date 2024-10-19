@@ -22,8 +22,6 @@ jobs:
         run: make lint
       - name: extract 
         run: make extract 
-      - name: transform_load
-        run: make transform_load 
       - name: query
         run: make query
       - name: test
