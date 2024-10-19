@@ -1,13 +1,12 @@
 """
-Test cases for AirlineSafetyDB
-
+Test for ETL and complex SQL queries
 """
 
 import subprocess
 
 
 def test_extract():
-    """Tests extract()"""
+    """tests extract()"""
     result = subprocess.run(
         ["python", "main.py", "extract"],
         capture_output=True,
@@ -19,9 +18,9 @@ def test_extract():
 
 
 def test_transform_load():
-    """Tests transform_load()"""
+    """tests transform_load"""
     result = subprocess.run(
-        ["python", "main.py", "transform_load"],
+        ["python", "main.py", "load"],
         capture_output=True,
         text=True,
         check=True,
@@ -30,84 +29,27 @@ def test_transform_load():
     assert "Transforming data..." in result.stdout
 
 
-def test_update_record():
-    """Tests update_record()"""
-    result = subprocess.run(
-        [
-            "python",
-            "main.py",
-            "update_record",
-            "1",  # Record ID to update
-            "Updated Airline A",  # Airline name
-            "600000",  # Avail seat km per week
-            "3",  # Incidents 85-99
-            "0",  # Fatal accidents 85-99
-            "1",  # Fatalities 85-99
-            "0",  # Incidents 00-14
-            "1",  # Fatal accidents 00-14
-            "0",  # Fatalities 00-14
-        ],
-        capture_output=True,
-        text=True,
-        check=True,
-    )
-    assert result.returncode == 0
-
-
-def test_delete_record():
-    """Tests delete_record()"""
-    result = subprocess.run(
-        ["python", "main.py", "delete_record", "1"],  # Record ID to delete
-        capture_output=True,
-        text=True,
-        check=True,
-    )
-    assert result.returncode == 0
-
-
-def test_create_record():
-    """Tests create_record()"""
-    result = subprocess.run(
-        [
-            "python",
-            "main.py",
-            "create_record",
-            "New Airline",  # Airline name
-            "1000000",  # Avail seat km per week
-            "2",  # Incidents 85-99
-            "0",  # Fatal accidents 85-99
-            "0",  # Fatalities 85-99
-            "1",  # Incidents 00-14
-            "0",  # Fatal accidents 00-14
-            "0",  # Fatalities 00-14
-        ],
-        capture_output=True,
-        text=True,
-        check=True,
-    )
-    assert result.returncode == 0
-
-
 def test_general_query():
-    """Tests general_query()"""
+    """tests general_query"""
     result = subprocess.run(
         [
             "python",
             "main.py",
-            "general_query",
-            "SELECT * FROM AirlineSafety WHERE airline = 'Aeroflot*'",
+            "query",
+            """SELECT 
+                rg.Major, 
+                rg.Employed AS Undergrad_Employed, 
+                gs.Grad_employed AS Grad_Employed,
+                rg.Unemployment_rate AS Undergrad_Unemployment_Rate,
+                gs.Grad_unemployment_rate AS Grad_Unemployment_Rate,
+                (gs.Grad_median - rg.Median) AS Salary_Premium
+            FROM RecentGradsDB rg
+            JOIN GradStudentsDB gs
+                ON rg.Major_code = gs.Major_code
+            WHERE rg.Unemployment_rate < 0.05  -- High undergraduate employment rate
+              AND gs.Grad_unemployment_rate < 0.05  -- High graduate employment rate
+            ORDER BY Salary_Premium DESC;"""
         ],
-        capture_output=True,
-        text=True,
-        check=True,
-    )
-    assert result.returncode == 0
-
-
-def test_read_data():
-    """Tests read_data()"""
-    result = subprocess.run(
-        ["python", "main.py", "read_data"],
         capture_output=True,
         text=True,
         check=True,
@@ -118,8 +60,4 @@ def test_read_data():
 if __name__ == "__main__":
     test_extract()
     test_transform_load()
-    test_create_record()
-    test_read_data()
-    test_update_record()
-    test_delete_record()
     test_general_query()

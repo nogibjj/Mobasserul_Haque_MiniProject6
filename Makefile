@@ -21,7 +21,7 @@ generate_and_push:
 		git config --local user.email "action@github.com"; \
 		git config --local user.name "GitHub Action"; \
 		git add .; \
-		git commit -m "Add SQL log as query_output.md"; \
+		git commit -m "Add SQL log as query_log.md"; \
 		git push; \
 	else \
 		echo "No changes to commit. Skipping commit and push."; \
@@ -32,3 +32,6 @@ extract:
 
 load: 
 	python main.py transform_load	
+
+query:
+	python main.py query "SELECT rg.Major, rg.Employed AS Undergrad_Employed, gs.Grad_employed AS Grad_Employed, rg.Unemployment_rate AS Undergrad_Unemployment_Rate, gs.Grad_unemployment_rate AS Grad_Unemployment_Rate, (gs.Grad_median - rg.Median) AS Salary_Premium FROM RecentGradsDB rg JOIN GradStudentsDB gs ON rg.Major_code = gs.Major_code WHERE rg.Unemployment_rate < 0.05 AND gs.Grad_unemployment_rate < 0.05 ORDER BY Salary_Premium DESC;"
