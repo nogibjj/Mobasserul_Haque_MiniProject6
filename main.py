@@ -12,12 +12,11 @@ def handle_arguments(args):
         "action",
         choices=["extract", "load", "query"],
     )
-    
+
     if "query" in args:
         # Add an argument for a raw SQL query passed as a string
         parser.add_argument(
-            "query",
-            help="The SQL query to execute, passed as a string."
+            "query", help="The SQL query to execute, passed as a string."
         )
 
     return parser.parse_args(args)
@@ -25,7 +24,7 @@ def handle_arguments(args):
 
 def main():
     args = handle_arguments(sys.argv[1:])
-    
+
     if args.action == "extract":
         print("Extracting data...")
         extract()

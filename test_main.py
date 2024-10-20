@@ -25,7 +25,7 @@ def test_load():
         capture_output=True,
         text=True,
         check=True,
-    )  
+    )
 
     if result.returncode != 0:
         print(f"Load failed with return code {result.returncode}")

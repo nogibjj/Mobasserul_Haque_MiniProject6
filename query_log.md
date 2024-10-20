@@ -108,3 +108,47 @@ SELECT
 [Row(Major='OPERATIONS LOGISTICS AND E-COMMERCE', Undergrad_Employed=10027, Grad_Employed=12659, Undergrad_Unemployment_Rate=0.04785870388150215, Grad_Unemployment_Rate=0.02284832112491131, Salary_Premium=44000), Row(Major='OPERATIONS LOGISTICS AND E-COMMERCE', Undergrad_Employed=10027, Grad_Employed=12659, Undergrad_Unemployment_Rate=0.04785870388150215, Grad_Unemployment_Rate=0.02284832112491131, Salary_Premium=44000), Row(Major='OPERATIONS LOGISTICS AND E-COMMERCE', Undergrad_Employed=10027, Grad_Employed=12659, Undergrad_Unemployment_Rate=0.04785870388150215, Grad_Unemployment_Rate=0.02284832112491131, Salary_Premium=44000), Row(Major='OPERATIONS LOGISTICS AND E-COMMERCE', Undergrad_Employed=10027, Grad_Employed=12659, Undergrad_Unemployment_Rate=0.04785870388150215, Grad_Unemployment_Rate=0.02284832112491131, Salary_Premium=44000), Row(Major='OPERATIONS LOGISTICS AND E-COMMERCE', Undergrad_Employed=10027, Grad_Employed=12659, Undergrad_Unemployment_Rate=0.04785870388150215, Grad_Unemployment_Rate=0.02284832112491131, Salary_Premium=44000)]
 ```
 
+```sql
+
+        SELECT 
+            rg.Major, 
+            rg.Employed AS Undergrad_Employed, 
+            gs.Grad_employed AS Grad_Employed,
+            rg.Unemployment_rate AS Undergrad_Unemployment_Rate,
+            gs.Grad_unemployment_rate AS Grad_Unemployment_Rate,
+            (gs.Grad_median - rg.Median) AS Salary_Premium
+        FROM RecentGradsDB rg
+        JOIN GradStudentsDB gs ON rg.Major_code = gs.Major_code
+        WHERE rg.Unemployment_rate < 0.05  
+          AND gs.Grad_unemployment_rate < 0.05  
+        ORDER BY Salary_Premium DESC
+        LIMIT 5;
+    
+```
+
+```response from databricks
+[Row(Major='OPERATIONS LOGISTICS AND E-COMMERCE', Undergrad_Employed=10027, Grad_Employed=12659, Undergrad_Unemployment_Rate=0.04785870388150215, Grad_Unemployment_Rate=0.02284832112491131, Salary_Premium=44000), Row(Major='OPERATIONS LOGISTICS AND E-COMMERCE', Undergrad_Employed=10027, Grad_Employed=12659, Undergrad_Unemployment_Rate=0.04785870388150215, Grad_Unemployment_Rate=0.02284832112491131, Salary_Premium=44000), Row(Major='OPERATIONS LOGISTICS AND E-COMMERCE', Undergrad_Employed=10027, Grad_Employed=12659, Undergrad_Unemployment_Rate=0.04785870388150215, Grad_Unemployment_Rate=0.02284832112491131, Salary_Premium=44000), Row(Major='OPERATIONS LOGISTICS AND E-COMMERCE', Undergrad_Employed=10027, Grad_Employed=12659, Undergrad_Unemployment_Rate=0.04785870388150215, Grad_Unemployment_Rate=0.02284832112491131, Salary_Premium=44000), Row(Major='OPERATIONS LOGISTICS AND E-COMMERCE', Undergrad_Employed=10027, Grad_Employed=12659, Undergrad_Unemployment_Rate=0.04785870388150215, Grad_Unemployment_Rate=0.02284832112491131, Salary_Premium=44000)]
+```
+
+```sql
+
+        SELECT 
+            rg.Major, 
+            rg.Employed AS Undergrad_Employed, 
+            gs.Grad_employed AS Grad_Employed,
+            rg.Unemployment_rate AS Undergrad_Unemployment_Rate,
+            gs.Grad_unemployment_rate AS Grad_Unemployment_Rate,
+            (gs.Grad_median - rg.Median) AS Salary_Premium
+        FROM RecentGradsDB rg
+        JOIN GradStudentsDB gs ON rg.Major_code = gs.Major_code
+        WHERE rg.Unemployment_rate < 0.05  
+          AND gs.Grad_unemployment_rate < 0.05  
+        ORDER BY Salary_Premium DESC
+        LIMIT 5;
+    
+```
+
+```response from databricks
+[Row(Major='OPERATIONS LOGISTICS AND E-COMMERCE', Undergrad_Employed=10027, Grad_Employed=12659, Undergrad_Unemployment_Rate=0.04785870388150215, Grad_Unemployment_Rate=0.02284832112491131, Salary_Premium=44000), Row(Major='OPERATIONS LOGISTICS AND E-COMMERCE', Undergrad_Employed=10027, Grad_Employed=12659, Undergrad_Unemployment_Rate=0.04785870388150215, Grad_Unemployment_Rate=0.02284832112491131, Salary_Premium=44000), Row(Major='OPERATIONS LOGISTICS AND E-COMMERCE', Undergrad_Employed=10027, Grad_Employed=12659, Undergrad_Unemployment_Rate=0.04785870388150215, Grad_Unemployment_Rate=0.02284832112491131, Salary_Premium=44000), Row(Major='OPERATIONS LOGISTICS AND E-COMMERCE', Undergrad_Employed=10027, Grad_Employed=12659, Undergrad_Unemployment_Rate=0.04785870388150215, Grad_Unemployment_Rate=0.02284832112491131, Salary_Premium=44000), Row(Major='OPERATIONS LOGISTICS AND E-COMMERCE', Undergrad_Employed=10027, Grad_Employed=12659, Undergrad_Unemployment_Rate=0.04785870388150215, Grad_Unemployment_Rate=0.02284832112491131, Salary_Premium=44000)]
+```
+
