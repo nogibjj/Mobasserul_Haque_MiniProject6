@@ -62,7 +62,7 @@ def test_general_query():
         text=True,
         check=True,
     )
-    assert result.returncode == 0, f"Query failed with return code {result.returncode}"
+    assert result.returncode == 0
     print("General Query Test Passed!")
 
 
