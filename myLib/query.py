@@ -19,13 +19,20 @@ def query(query):
     server_h = os.getenv("SERVER_HOSTNAME")
     access_token = os.getenv("ACCESS_TOKEN")
     http_path = os.getenv("HTTP_PATH")
-    with sql.connect(
-        server_hostname=server_h,
-        http_path=http_path,
-        access_token=access_token,
-    ) as connection:
-        c = connection.cursor()
-        c.execute(query)
-        result = c.fetchall()
-    c.close()
-    add_to_markdown(f"{query}", result)
+    
+    try:
+        with sql.connect(
+            server_hostname=server_h,
+            http_path=http_path,
+            access_token=access_token,
+        ) as connection:
+            c = connection.cursor()
+            c.execute(query)
+            result = c.fetchall()
+        c.close()
+        add_to_markdown(f"{query}", result)
+        return result  # Return the result for further validation in tests
+    except Exception as e:
+        print(f"Error executing query: {e}")  # Print error message
+        add_to_markdown(f"{query}", str(e))  # Log the error
+        raise  # Re-raise the exception for visibility in tests
