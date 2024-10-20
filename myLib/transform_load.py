@@ -4,7 +4,7 @@ import pandas as pd
 from dotenv import load_dotenv
 
 def load_data(recent_grads_path="data/recent-grads.csv", grad_students_path="data/grad-students.csv"):
-    print("Starting the data loading process...")
+    print("Loading data to Databricks...")  # Add this line
 
     # Load recent_grads.csv
     try:

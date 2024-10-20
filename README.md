@@ -1,25 +1,30 @@
 [![CI](https://github.com/nogibjj/Mobasserul_Haque_MiniProject5/actions/workflows/cicd.yml/badge.svg)](https://github.com/nogibjj/Mobasserul_Haque_MiniProject5/actions/workflows/cicd.yml)
 
-# Airline Safety Database ETL and Query Tool
+# Graduate Employment Salary ETL Query Pipeline using Databricks
 
-This project provides an ETL (Extract, Transform, Load) and querying tool for managing and analyzing the Airline Safety Database. It is built using Python and SQLite, enabling users to perform various operations on airline safety records, including extraction, loading, updating, deleting, creating, and querying records.
+This project provides an ETL (Extract, Transform, Load) and querying tool designed to analyze critical employment statistics for both undergraduate and graduate students. The analysis focuses on employment rates, unemployment rates, and salary premiums, leveraging data from the **RecentGradsDB** and **GradStudentsDB** datasets.
+
+The pipeline is built using Python and Databricks, offering users the capability to efficiently extract data from various sources, transform and clean it for analysis, and load it into a Databricks table for further processing. Users can perform complex SQL queries that utilize JOINs, aggregations, filtering, and sorting to gain insights into employment trends, average salaries, and the effectiveness of various degree programs in securing employment for graduates.
+
+By utilizing this pipeline, educators, policymakers, and students can better understand the labor market dynamics and the value of different degrees, ultimately aiding in informed decision-making regarding education and career paths.
 
 ## Features
 
 - **ETL Operations**: 
-  - Extract data from a source.
-  - Transform and load data into the SQLite database.
+  - Extract data from CSV files.
+  - Transform and load data into Databricks tables for analysis.
   
-- **Query Operations**:
-  - Update existing records in the database.
-  - Delete records based on a unique identifier.
-  - Create new records in the database.
-  - Execute custom SQL queries.
-  - Read a limited number of records from the database.
+- **Data Transformation**: Cleaning and preprocessing of data to ensure consistency and accuracy, including handling missing values and converting data types.
 
+- **Data Loading**: Efficient loading of transformed data into a Databricks table, enabling scalable querying and analysis.
+
+- **Query Operations**:
+  - Execute complex SQL queries using JOINs, GROUP BY, HAVING, and UNION.
+  - Filter and sort data by employment rates, salary differences, and other attributes.
+  
 - **Logging and Output**:
-  - All executed queries are logged in a markdown file for reference.
-  - Query results are outputted in a formatted markdown file for easier readability.
+  - Query results are outputted in a structured format for easy interpretation.
+  - Errors and exceptions are logged during ETL and querying processes.
 
 ## Directory Structure
 
@@ -30,7 +35,8 @@ This project provides an ETL (Extract, Transform, Load) and querying tool for ma
 ├── .github/
 │   └── workflows/cicd.yml
 ├── data/
-│   └── airline_safety.csv
+│   ├── airline_safety.csv
+    └── airline_safety.csv
 ├── myLib/
 │   ├── __init__.py
 │   ├── __pycache__/
