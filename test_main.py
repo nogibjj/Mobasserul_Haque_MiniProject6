@@ -67,6 +67,6 @@ def test_general_query():
 
 
 if __name__ == "__main__":
-    #test_extract()
-    #test_load()
+    test_extract()
+    test_load()
     test_general_query()
